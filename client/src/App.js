@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Post from "./pages/Post";
+import EditPost from "./pages/EditPost";
 
 function App() {
   return (
@@ -20,11 +21,15 @@ function App() {
         
         <Routes>
 
+          
           <Route path="/" element={ <Index /> } />
+          
+          <Route path="post/:slug" element={ <Post /> } />
 
           <Route path="admin" element={ <Admin /> } />
 
-          <Route path="post/:slug" element={ <Post /> } />
+          <Route path="admin/edit/:slug" element={ <EditPost /> } />
+
 
         </Routes>
 

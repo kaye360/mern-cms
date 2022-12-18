@@ -16,11 +16,12 @@ Pages:
 
 API Routes:
 
-- GET  / - show all posts
-- POST / - create new post
+- GET  /api/ -> show all posts
+- POST /api/ -> create new post
 
-- GET    /post/:id show single post
-- PUT    /post/:id update single post
-- DELETE /post/:id destroy single post
+- GET    /api/post/:id -> show single post
+- PUT    /api/post/:id -> update single post
+- DELETE /api/post/:id -> destroy single post
 
+- GET /api/slug/:slug -> show id for given url slug 
 

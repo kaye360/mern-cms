@@ -16,7 +16,7 @@ export default function Admin() {
 
       <div className="flex flex-col gap-4">
         {
-        posts.map( post => <AdminPostExcerpt post={ post } /> )
+        posts.map( post => <AdminPostExcerpt post={ post } key={ post._id } /> )
         }
       </div>
 

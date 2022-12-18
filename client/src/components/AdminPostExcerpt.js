@@ -47,7 +47,7 @@ export default function AdminPostExcerpt({ post }) {
           View
         </Link>
 
-        <Link to={`/admin/${_id}`} className={`${ btnCSS } text-slate-600`}>
+        <Link to={`/admin/edit/${_id}`} className={`${ btnCSS } text-slate-600`}>
           <Icon css="text-base">edit</Icon>
           Edit
         </Link>

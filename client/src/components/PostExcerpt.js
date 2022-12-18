@@ -34,7 +34,7 @@ export default function PostExcerpt({ post }) {
 
       <Link 
         to={`/post/${ slug }`} 
-        className="inline-block px-3 py-1 bg-slate-300 text-slate-600 hover:bg-slate-600 hover:text-slate-300"
+        className="rounded inline-block px-3 py-1 bg-sky-200 text-sky-800  hover:bg-sky-800 hover:text-sky-200"
       >
         Read More
       </Link>

@@ -8,10 +8,16 @@ by josh kaye
 
 */
 
+// Dependencies
 import express from "express";
 import cors from "cors"
 import * as dotenv from "dotenv"
+
+// Utils
 import connectDB from "./utils/db.js";
+
+// Models
+import { getPostIdFromSlug } from "./controllers/postIds.js"
 import {
   getAllPosts,
   createPost,
@@ -40,6 +46,8 @@ router.route('/post/:slug').get( getSinglePost )
 
 router.route('/post/:id').put( updateSinglePost )
                          .delete( destroySinglePost )
+
+router.route('/postId/:slug').get( getPostIdFromSlug )
 
 app.use('/api/', router)
 
