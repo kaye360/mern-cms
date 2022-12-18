@@ -1,38 +1,83 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;500;700;900&display=swap');
+
+:root {
+
+  /* Font Family */
+  --font-default : Poppins, Helvetica, sans-serif;
+
+  /* Font Sizes */    
+  --font-size-0 : clamp(0.7rem, 1vw, 0.9rem);
+  --font-size-1 : clamp(0.9rem, 1.5vw, 1.1rem);
+  --font-size-2 : clamp(1.2rem, 2vw, 1.6rem);
+  --font-size-3 : clamp(1.7rem, 2.7vw, 2.1rem);
+  --font-size-4 : clamp(2.2rem, 4vw, 2.6rem);
+  --font-size-5 : clamp(2.6rem, 5vw, 3.2rem);
+  --font-size-6 : clamp(3.2, 6vw, 3.6rem);
+  --font-size-7 : clamp(3.7rem, 7vw, 4.1rem);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*, *::before, *::after {
+  margin : 0;
+  padding : 0;
+  box-sizing: border-box;
+  font: inherit;
+  font-family: var(--font-default);
+  vertical-align: baseline;
+
+  /* outline : 1px solid red; */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding: 100px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+body {
+  min-height : 100vh;
+  font-weight: 300;
+  font-size: var(--font-size-1);
+  line-height : calc( var(--font-size-1) * 1.5 );
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+img, picture, video, canvas, svg { 
+  max-width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+ul {
+  padding-left : 2rem;
+}
+
+p {
+  margin-bottom: 1.7rem;
+  line-height: 1.7rem;
+}
+
+button {
+  border : 0;
+  outline : 0;
+  background: none;
+  cursor : pointer;
+  font-weight : 500;
+  color : inherit;
+}
+
+a {
+  text-decoration: none;
+  color : hsl( var(--default-link-clr) );
+}
+
+a:hover, a:focus {
+  color : hsl( var(--default-link-hover-clr) );
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }

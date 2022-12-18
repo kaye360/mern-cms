@@ -9,6 +9,7 @@ by josh kaye
 */
 
 import express from "express";
+import cors from "cors"
 import * as dotenv from "dotenv"
 import connectDB from "./utils/db.js";
 import {
@@ -23,8 +24,9 @@ import {
 dotenv.config()
 
 // Express
-const port = 3000
+const port = 3001
 const app = express()
+app.use(cors())
 app.use(express.json())
 
 
