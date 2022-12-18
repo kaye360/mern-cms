@@ -36,8 +36,9 @@ const router = express.Router()
 router.route('/').get(  getAllPosts)
                  .post( createPost )
 
-router.route('/post/:id').get( getSinglePost )
-                         .put( updateSinglePost )
+router.route('/post/:slug').get( getSinglePost )
+
+router.route('/post/:id').put( updateSinglePost )
                          .delete( destroySinglePost )
 
 app.use('/api/', router)

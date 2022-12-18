@@ -5,7 +5,6 @@ import Icon from "./Icon"
 
 export default function PostExcerpt({ post }) {
 
-  console.log(post)
   let {
     title,
     date,
@@ -33,7 +32,12 @@ export default function PostExcerpt({ post }) {
         { body }
       </div>
 
-      <Link to={`/post/${ slug }`}>Read More</Link>
+      <Link 
+        to={`/post/${ slug }`} 
+        className="inline-block px-3 py-1 bg-slate-300 text-slate-600 hover:bg-slate-600 hover:text-slate-300"
+      >
+        Read More
+      </Link>
     </article>
   )
 }

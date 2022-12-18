@@ -7,6 +7,7 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
+import Post from "./pages/Post";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/" element={ <Index /> } />
 
           <Route path="admin" element={ <Admin /> } />
+
+          <Route path="post/:slug" element={ <Post /> } />
 
         </Routes>
 
