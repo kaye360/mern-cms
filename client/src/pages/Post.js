@@ -25,6 +25,7 @@ export default function Post() {
         const postId = data.postData.postId
 
         res = await fetch(`http://localhost:3001/api/post/${postId}`)
+        if(!res.ok) return
         data = await res.json()
         setPost(data.singlePost)
         setLoading(false)
