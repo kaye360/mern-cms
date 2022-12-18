@@ -9,11 +9,14 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Post from "./pages/Post";
 import EditPost from "./pages/EditPost";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="App mx-auto max-w-5xl ">
     <Router basename="/">
+      
+      <ScrollToTop />
 
       <Nav />
 
@@ -28,7 +31,7 @@ function App() {
 
           <Route path="admin" element={ <Admin /> } />
 
-          <Route path="admin/edit/:slug" element={ <EditPost /> } />
+          <Route path="admin/edit/:id" element={ <EditPost /> } />
 
 
         </Routes>

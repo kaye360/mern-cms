@@ -11,20 +11,26 @@ export default function Post() {
   const { slug } = useParams()
 
 
-  const [post, setPost] = useState([])
-
+  const [post, setPost] = useState([true])
+  const [loading, setLoading] = useState(true)
 
   useEffect( () => {
 
     async function getPost() {
       try {
 
-        const res = await fetch(`http://localhost:3001/api/post/${slug}`)
+        let res = await fetch(`http://localhost:3001/api/postId/${slug}`)
         if(!res.ok) throw new Error(res.status)
-        const data = await res.json()
+        let data = await res.json()
+        const postId = data.postData.postId
+
+        res = await fetch(`http://localhost:3001/api/post/${postId}`)
+        data = await res.json()
         setPost(data.singlePost)
+        setLoading(false)
 
       } catch (err) {
+        setPost([])
         console.log(err)
       }
     }
@@ -36,6 +42,13 @@ export default function Post() {
 
   return(
     <section>
+
+      {
+      loading && 
+        <div className="py-8 text-center text-xl font-bold">
+          Loading...
+        </div>
+      }
 
       {
       post.length !== 0 && <>

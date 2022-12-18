@@ -42,9 +42,10 @@ const router = express.Router()
 router.route('/').get(  getAllPosts)
                  .post( createPost )
 
-router.route('/post/:slug').get( getSinglePost )
+router.route('/post/:slug')
 
-router.route('/post/:id').put( updateSinglePost )
+router.route('/post/:id').get( getSinglePost )
+                         .put( updateSinglePost )
                          .delete( destroySinglePost )
 
 router.route('/postId/:slug').get( getPostIdFromSlug )
