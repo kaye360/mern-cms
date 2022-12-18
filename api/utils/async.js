@@ -6,7 +6,7 @@ export const tryAsync = (func) => {
     try {
       await func(req, res)
     } catch (error) {
-      console.log(error)
+      return res.status(500).json( { msg: error} )
     }
   }
 }
