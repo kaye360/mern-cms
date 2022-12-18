@@ -25,13 +25,15 @@ export const createPost = tryAsync( async (req, res) => {
 
 
 export const getSinglePost = tryAsync( async (req, res) => {
-  const id = req.params.id
-  const singlePost = await Post.findOne({ _id : id })
+  const slug = req.params.slug
+  const singlePost = await Post.findOne({ slug : slug })
 
-  if (!singlePost) return res.status(404).json({ msg : `No post found with id: ${ id }` })
+  if (!singlePost) return res.status(404).json({ msg : `No post found with URI: ${ slug }` })
 
   res.status(200).json({ singlePost })
 })
+
+
 
 
 

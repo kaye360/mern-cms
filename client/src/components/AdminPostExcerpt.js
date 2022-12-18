@@ -29,6 +29,10 @@ export default function AdminPostExcerpt({ post }) {
 
         <h2 className="my-2 text-xl font-medium">{ title }</h2>
 
+        <div>
+          { slug }
+        </div>
+
         <div className="text-sm text-gray-400">
           <Icon css='text-xs mr-1'>calendar_today</Icon>
           { date }
@@ -47,14 +51,14 @@ export default function AdminPostExcerpt({ post }) {
           View
         </Link>
 
-        <Link to={`/admin/edit/${_id}`} className={`${ btnCSS } text-slate-600`}>
+        <Link to={`/admin/edit/${ slug }`} className={`${ btnCSS } text-slate-600`}>
           <Icon css="text-base">edit</Icon>
           Edit
         </Link>
 
         <button  className={`${ btnCSS } text-red-400`}>
           <Icon css="text-base">delete</Icon>
-          Delete
+          Delete {_id}
         </button>
 
       </div>

@@ -19,9 +19,8 @@ API Routes:
 - GET  /api/ -> show all posts
 - POST /api/ -> create new post
 
-- GET    /api/post/:id -> show single post
+- GET    /api/post/:slug -> show single post
 - PUT    /api/post/:id -> update single post
 - DELETE /api/post/:id -> destroy single post
 
-- GET /api/slug/:slug -> show id for given url slug 
 

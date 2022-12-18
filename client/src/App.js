@@ -31,7 +31,7 @@ function App() {
 
           <Route path="admin" element={ <Admin /> } />
 
-          <Route path="admin/edit/:id" element={ <EditPost /> } />
+          <Route path="admin/edit/:slug" element={ <EditPost /> } />
 
 
         </Routes>

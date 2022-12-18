@@ -6,13 +6,14 @@ import Icon from "../components/Icon"
 
 export default function EditPost() {
 
-  const { id } = useParams()
+  const { slug: uri } = useParams()
 
+  const [id, setId] = useState(false)
   const [post, setPost] = useState([])
   const [title, setTitle] = useState(false)
   const [date, setDate] = useState(false)
-  const [slug, setSlug] = useState(false)
-  const [isPublished, setIsPublished] = useState(false)
+  const [slug, setSlug] = useState(uri)
+  const [published, setPublished] = useState(false)
   const [body, setBody] = useState(false)
 
   useEffect( () => {
@@ -20,19 +21,19 @@ export default function EditPost() {
     async function getPost() {
 
       try {
-
-        const res = await fetch(`http://localhost:3001/api/post/${id}`)
+        
+        const res = await fetch(`http://localhost:3001/api/post/${uri}`)
 
         if(!res.ok) return
 
         const data = await res.json()
+        setId(data.singlePost._id)
         setPost(data.singlePost)
         setTitle(data.singlePost.title)
         setDate(data.singlePost.date.slice(0,-1))
         setSlug(data.singlePost.slug)
-        setIsPublished(data.singlePost.published)
+        setPublished(data.singlePost.published)
         setBody(data.singlePost.body)
-        console.log(data.singlePost)
 
       } catch (err) {
         console.log(err)
@@ -40,12 +41,19 @@ export default function EditPost() {
     }
 
     getPost()
-  },[id])
+  },[uri])
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
 
-    console.log('hi')
+    const res = await fetch(`http://localhost:3001/api/post/${id}`, {
+      method : 'PUT',
+      headers : { 'Content-Type' : 'application/json; charset=UTF-8' },
+      body : JSON.stringify({ title, date, slug, published, body })
+    })
+
+    const data = res.json()
+    console.log(data)
   }
 
   return(
@@ -70,7 +78,7 @@ export default function EditPost() {
           Post Status:
           <select
             className="ml-4"
-            defaultValue={ isPublished ? 'true' : 'false' }
+            defaultValue={ published ? 'true' : 'false' }
             onChange={ (e) => { console.log(e.target.value) }}
           >
             <option value="false">Draft</option>
@@ -102,9 +110,9 @@ export default function EditPost() {
           Post:
           <textarea
             className="rounded block border border-gray-400 w-full h-[75vh] p-2"
-          >
-            {body}
-          </textarea>
+            defaultValue={body}
+            onChange={ (e) => setBody(e.target.value) }
+          ></textarea>
         </div>
 
         <button 
