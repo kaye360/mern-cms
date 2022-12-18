@@ -1,20 +1,31 @@
 
+import { Link } from "react-router-dom"
+import Icon from "./Icon"
+
 
 export default function PostExcerpt({ post }) {
 
-  const {
+  console.log(post)
+  let {
     title,
     date,
     body,
-    _id,
+    slug,
   } = post
 
+  date = date.slice(0, 10)
+
   return(
-    <article className="p-4 border border-blue-100">
+    <article className="rounded p-4 border border-blue-100">
 
-      <h2 className="text-xl font-medium">{ title }</h2>
+      <h2 className="my-2 text-xl font-medium">
+        <Link to={`/post/${ slug }`} className="hover:underline">
+          { title }
+        </Link>
+      </h2>
 
-      <div className="text-sm text-blue-400">
+      <div className="text-sm text-gray-400">
+        <Icon css='text-xs mr-1'>calendar_today</Icon>
         { date }
       </div>
 
@@ -22,7 +33,7 @@ export default function PostExcerpt({ post }) {
         { body }
       </div>
 
-      <button>{ _id }</button>
+      <Link to={`/post/${ slug }`}>Read More</Link>
     </article>
   )
 }
