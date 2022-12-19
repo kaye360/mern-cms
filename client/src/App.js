@@ -10,10 +10,22 @@ import Admin from "./pages/Admin";
 import Post from "./pages/Post";
 import EditPost from "./pages/EditPost";
 import ScrollToTop from "./components/ScrollToTop";
+import Flash from "./components/Flash";
+import { createContext, useState, } from "react";
+
+export const FlashContext = createContext()
+
 
 function App() {
+
+  const [flash, setFlash] = useState(false)
+
   return (
     <div className="App mx-auto max-w-5xl ">
+    <FlashContext.Provider value={ [flash, setFlash] }>
+
+    <Flash />
+
     <Router basename="/">
       
       <ScrollToTop />
@@ -41,6 +53,8 @@ function App() {
       <Footer />
 
     </Router>
+
+    </FlashContext.Provider>
     </div>
   );
 }

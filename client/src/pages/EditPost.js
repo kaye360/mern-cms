@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import PageHeading from "../components/PageHeading";
 import Icon from "../components/Icon"
-
+import {FlashContext} from "../App"
 
 export default function EditPost() {
 
   const { slug: uri } = useParams()
+
+  const [, setFlash] = useContext(FlashContext)
 
   const [id, setId] = useState(false)
   const [post, setPost] = useState([])
@@ -35,6 +37,7 @@ export default function EditPost() {
         setPublished(data.singlePost.published)
         setBody(data.singlePost.body)
 
+
       } catch (err) {
         console.log(err)
       }
@@ -52,8 +55,12 @@ export default function EditPost() {
       body : JSON.stringify({ title, date, slug, published, body })
     })
 
-    const data = res.json()
-    console.log(data)
+    const data = await res.json()
+
+    setFlash({
+      message: `Successfully Updated post: ${ data.updatedPost.title }`, 
+      type : 'success'
+    })
   }
 
   return(
