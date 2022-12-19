@@ -9,7 +9,7 @@ import { tryAsync } from "../utils/async.js"
 
 
 export const getAllPosts = tryAsync( async (req, res) => {
-  const allPosts = await Post.find({})
+  const allPosts = await Post.find({}).sort({ "date" : "desc" })
   res.status(200).json({ allPosts })
 })
 

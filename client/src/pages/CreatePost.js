@@ -8,6 +8,7 @@ export default function EditPost() {
   const [, setFlash] = useContext(FlashContext)
   const navigate = useNavigate()
 
+  const currentDate = new Date().toISOString().slice(0, -1)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -86,6 +87,7 @@ export default function EditPost() {
             <input
               type="datetime-local"
               className="ml-4"
+              defaultValue={ currentDate }
             />
           </label>
         </div>
