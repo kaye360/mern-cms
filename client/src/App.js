@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Post from "./pages/Post";
 import EditPost from "./pages/EditPost";
+import CreatePost from "./pages/CreatePost"
 import ScrollToTop from "./components/ScrollToTop";
 import Flash from "./components/Flash";
 import { createContext, useState, } from "react";
@@ -32,11 +33,10 @@ function App() {
 
       <Nav />
 
-      <main className="min-h-screen p-4">
+      <main className="p-4">
         
         <Routes>
 
-          
           <Route path="/" element={ <Index /> } />
           
           <Route path="post/:slug" element={ <Post /> } />
@@ -44,6 +44,8 @@ function App() {
           <Route path="admin" element={ <Admin /> } />
 
           <Route path="admin/edit/:slug" element={ <EditPost /> } />
+
+          <Route path="admin/create" element={ <CreatePost /> } />
 
 
         </Routes>

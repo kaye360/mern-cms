@@ -70,10 +70,6 @@ export default function AdminPostExcerpt({ post, getPosts }) {
 
         <h2 className="my-2 text-xl font-medium">{ title }</h2>
 
-        <div>
-          { slug }
-        </div>
-
         <div className="text-sm text-gray-400">
           <Icon css='text-xs mr-1'>calendar_today</Icon>
           { date }

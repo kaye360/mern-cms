@@ -12,6 +12,7 @@ export default function usePosts() {
       if(!res.ok) throw new Error(res.status)
       const data = await res.json()
       setPosts(data.allPosts)
+      
     } catch (err) {
       console.log(err)
     }
