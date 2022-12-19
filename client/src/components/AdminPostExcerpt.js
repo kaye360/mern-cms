@@ -1,9 +1,15 @@
 
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
+import { FlashContext } from "../App"
 import Icon from "./Icon"
 
 
-export default function AdminPostExcerpt({ post }) {
+export default function AdminPostExcerpt({ post, getPosts }) {
+
+
+  const [, setFlash] = useContext(FlashContext)
+  const [isDeleteValidated, setDeleteIsValidated] = useState(false)
 
   let {
     title,
@@ -20,6 +26,41 @@ export default function AdminPostExcerpt({ post }) {
     flex items-center gap-2 w-max px-1 py-1
     font-medium 
     hover:outline outline-1 outline-slate-300`
+
+  
+  async function handleDelete(id) {
+
+    if(!isDeleteValidated) {
+      setDeleteIsValidated(true)
+      return
+    }
+
+    try {
+      
+      const res = await fetch(`http://localhost:3001/api/post/${id}`, {
+        method : 'DELETE',
+        headers : {
+          'Content-Type' : 'application/json; charset=UTF-8'
+        }
+      })
+
+      const data = await res.json()
+
+      setFlash({
+        type : 'success',
+        message : `Successfully deleted post: ${data.destroyPost.title}`
+      })
+
+      getPosts()
+
+    } catch (error) {
+      
+      setFlash({
+        type : 'fail',
+        message : error.message
+      })
+    }
+  }
 
   return(
 
@@ -56,9 +97,13 @@ export default function AdminPostExcerpt({ post }) {
           Edit
         </Link>
 
-        <button  className={`${ btnCSS } text-red-400`}>
+        <button  
+          className={`${ btnCSS } text-red-400`}
+          onClick={ () => handleDelete(_id) }
+        >
           <Icon css="text-base">delete</Icon>
-          Delete {_id}
+
+          { isDeleteValidated ? 'Are you sure?' : 'Delete'}
         </button>
 
       </div>

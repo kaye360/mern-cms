@@ -7,7 +7,7 @@ import AdminPostExcerpt from "../components/AdminPostExcerpt"
 export default function Admin() {
 
 
-  const posts = usePosts()
+  const { posts, getPosts } = usePosts()
 
   return(
     <section>
@@ -16,7 +16,7 @@ export default function Admin() {
 
       <div className="flex flex-col gap-4">
         {
-        posts.map( post => <AdminPostExcerpt post={ post } key={ post._id } /> )
+        posts.map( post => <AdminPostExcerpt post={ post } getPosts={ getPosts } key={ post._id } /> )
         }
       </div>
 
