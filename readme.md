@@ -11,6 +11,7 @@ Tech used: MongoDB, Mongoose, Express, React, NodeJS, TailwindCSS
 #### Pages:
 
 - Index : show posts
+- Tag : Show posts with a given tag
 - View Single Post
 - Admin : manage posts
   - view all/published/draft posts

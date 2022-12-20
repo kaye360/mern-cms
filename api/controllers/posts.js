@@ -44,6 +44,12 @@ export const getTaggedPosts = tryAsync( async (req, res) => {
 
 
 export const createPost = tryAsync( async (req, res) => {
+  const urlSlugExists = await Post.exists({ slug : req.body.slug })
+  if(urlSlugExists) return res.status(500).json({ 
+    input : 'slug',
+    message : `There is already a post with the slug: ${req.body.slug}` 
+  })
+  
   const newPost = await Post.create(req.body)
   res.status(201).json({ newPost })
 })

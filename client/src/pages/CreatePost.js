@@ -3,7 +3,7 @@ import PageHeading from "../components/PageHeading";
 import {FlashContext} from "../App"
 import { useNavigate } from "react-router-dom";
 import { APIURL } from "../utils/config";
-import { validateForm } from "../utils/forms"
+import { validateForm, showError } from "../utils/forms"
 
 
 
@@ -17,19 +17,16 @@ export default function EditPost() {
   // Redirect function
   const navigate = useNavigate()
 
-  // Array of form validation errors
-  const [formErrors, setFormErrors] = useState([])
+  // Array of front-end form validation errors
+  const [frontEndFormErrors, setFrontEndFormErrors] = useState([])
+
+  // Array of back-end form validation errors
+  const [backEndFormErrors, setBackEndFormErrors] = useState([])
 
   // Current Date
   const currentDate = new Date().toISOString().slice(0, -1)
 
-  // Form Validation Errors
-  // inputTitle must match key in validateForm
-  function showError(inputTitle) {
-    return (formErrors.filter( error => error.input === inputTitle ).map( (error, index) => {
-      return <span className="inline-block ml-4 text-red-500"  key={index}>{error.message}</span>
-    } ))
-  }
+
   
   // Form validate and submit
   async function handleSubmit(e) {
@@ -78,15 +75,16 @@ export default function EditPost() {
       },
     })
 
-    // If form not validated, stop and show errors
+    // If form not validated on front end, stop and show errors
     if(!postData.isValidated) {
-      setFormErrors(postData.errors)
+      setFrontEndFormErrors(postData.errors)
       setFlash({
         message : 'There was a problem validating your post. Please review.',
         type : 'fail'
       })
       return
     }
+    setFrontEndFormErrors([])
     
     // Attempt to submit post data
     try {
@@ -96,15 +94,20 @@ export default function EditPost() {
         body : JSON.stringify( postData.success )
       })
 
-      if(!res.ok) throw new Error(res.status)
+      // Back End Validation
+      if(!res.ok) {
+        const error = await res.json()
+        setBackEndFormErrors([...backEndFormErrors, { input : error.input, message : error.message }])
+        throw new Error(error.message)
+      }
+      setBackEndFormErrors([])
+      
       const data = await res.json()
-
       setFlash({ message: `Successfully created post: ${ data.newPost.title }`, type : 'success' })
       navigate(`/post/${data.newPost.slug}`)
       
     } catch (error) {
-      console.log(error)
-      setFlash({ message: `Please make sure all required fields are filled out. Error: ${error.message}`, type : 'fail' })
+      setFlash({ message: `There was an error with your post. ${error.message}`, type : 'fail' })
     }
   }
 
@@ -125,7 +128,7 @@ export default function EditPost() {
         <div>
           <label>
             Post Title:* 
-            { showError('title') }
+            { showError('title', frontEndFormErrors) }
             <input 
               type="text" 
               className=" p-2 border border-gray-200 w-full"
@@ -136,7 +139,7 @@ export default function EditPost() {
         <div>
           <label>
             Post Status:*
-            { showError('published') }
+            { showError('published', frontEndFormErrors) }
             <select
               className="ml-4"
               >
@@ -149,7 +152,7 @@ export default function EditPost() {
         <div>
           <label>
             Publish Date:*
-            { showError('date') }
+            { showError('date', frontEndFormErrors) }
             <input
               type="datetime-local"
               step="any"
@@ -162,7 +165,8 @@ export default function EditPost() {
         <div>
           <label>
             URL Slug:*
-            { showError('slug') }
+            { showError('slug', backEndFormErrors) }
+            { showError('slug', frontEndFormErrors) }
             <input 
               type="text" 
               className="ml-4 p-2 border border-gray-200"
@@ -173,7 +177,7 @@ export default function EditPost() {
         <div>
           <label>
             Tags:
-            { showError('tags') }
+            { showError('tags', frontEndFormErrors) }
             <input 
               type="text" 
               className="ml-4 p-2 border border-gray-200"
@@ -184,7 +188,7 @@ export default function EditPost() {
         <div>
           <label>
             Post:*
-            { showError('body') }
+            { showError('body', frontEndFormErrors) }
             <textarea
               className="rounded block border border-gray-400 w-full h-[5vh] p-2"
             ></textarea>

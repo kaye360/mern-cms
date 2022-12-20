@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema({
 
   title : {
     type : String,
-    required : [true, 'Most provide a post title.'],
+    required : true,
     trim : true,
     maxLength : [255, 'Title must not exceed 255 characters'],
   },
@@ -35,7 +35,7 @@ const PostSchema = new mongoose.Schema({
   slug : {
     type : String,
     required : true,
-    unique : true,
+    // unique : true,
   },
 
   tags : [{

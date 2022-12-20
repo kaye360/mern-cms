@@ -70,3 +70,14 @@ export function validateForm(formData) {
 
   return { errors, success, isValidated }
 }
+
+
+
+// Form Validation Errors
+// inputTitle must match key in validateForm
+export function showError(inputTitle, formErrors) {
+  if(!formErrors) return 
+  return (formErrors.filter( error => error.input === inputTitle ).map( (error, index) => {
+    return <span className="inline-block ml-4 text-red-500"  key={index}>{error.message}</span>
+  } ))
+}
