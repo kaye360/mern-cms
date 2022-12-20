@@ -36,7 +36,11 @@ const PostSchema = new mongoose.Schema({
     type : String,
     required : true,
     unique : true,
-  }
+  },
+
+  tags : [{
+    type : String
+  }],
 
 })
 

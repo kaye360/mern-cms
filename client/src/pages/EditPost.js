@@ -18,6 +18,7 @@ export default function EditPost() {
   const [slug, setSlug] = useState(uri)
   const [published, setPublished] = useState(false)
   const [body, setBody] = useState(false)
+  const [postTags, setPostTags] = useState(false)
 
   useEffect( () => {
 
@@ -26,10 +27,12 @@ export default function EditPost() {
       try {
         
         const res = await fetch(`${APIURL}/post/${uri}`)
-
         if(!res.ok) return
-
         const data = await res.json()
+
+        // Convert tags to comma separated list
+        const tags = data.singlePost.tags.map( tag => ` ${tag}`).toString().substring(1)
+
         setId(data.singlePost._id)
         setPost(data.singlePost)
         setTitle(data.singlePost.title)
@@ -37,32 +40,41 @@ export default function EditPost() {
         setSlug(data.singlePost.slug)
         setPublished(data.singlePost.published)
         setBody(data.singlePost.body)
-
+        setPostTags(tags)
 
       } catch (err) {
-        console.log(err)
+
+        setFlash({ message : err.message, type : 'fail' })
       }
     }
 
     getPost()
-  },[uri])
+  },[uri, setFlash])
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const res = await fetch(`${APIURL}/post/${id}`, {
-      method : 'PUT',
-      headers : { 'Content-Type' : 'application/json; charset=UTF-8' },
-      body : JSON.stringify({ title, date, slug, published, body })
-    })
+    const tags = postTags.split(',').map(tag => tag = tag.trim())
 
-    const data = await res.json()
-    console.log(data)
+    try {
+      const res = await fetch(`${APIURL}/post/${id}`, {
+        method : 'PUT',
+        headers : { 'Content-Type' : 'application/json; charset=UTF-8' },
+        body : JSON.stringify({ title, date, slug, published, body, tags })
+      })
+  
+      const data = await res.json()
+      console.log(data)
+  
+      setFlash({
+        message: `Successfully Updated post: ${ data.updatedPost.title }`, 
+        type : 'success'
+      })
+      
+    } catch (error) {
+      setFlash({ message: error.message, type : 'fail' })
+    }
 
-    setFlash({
-      message: `Successfully Updated post: ${ data.updatedPost.title }`, 
-      type : 'success'
-    })
   }
 
   return(
@@ -74,54 +86,76 @@ export default function EditPost() {
         <div className="flex flex-col gap-6"> 
 
         <PageHeading>
-          Edit Post:
-          <input 
-            type="text" 
-            className="p-2 w-full border border-gray-200" 
-            value={ title }
-            onChange={ (e) => setTitle(e.target.value) }
-          />
+          <label>
+            Edit Post:
+            <input 
+              type="text" 
+              className="p-2 w-full border border-gray-200" 
+              value={ title }
+              onChange={ (e) => setTitle(e.target.value) }
+            />
+          </label>
         </PageHeading>
 
         <div>
-          Post Status:
-          <select
-            className="ml-4"
-            defaultValue={ published ? 'true' : 'false' }
-            onChange={ (e) => { setPublished(e.target.value) }}
-          >
-            <option value="false">Draft</option>
-            <option value="true">Published</option>
-          </select>
+          <label>
+            Post Status:
+            <select
+              className="ml-4"
+              defaultValue={ published ? 'true' : 'false' }
+              onChange={ (e) => { setPublished(e.target.value) }}
+            >
+              <option value="false">Draft</option>
+              <option value="true">Published</option>
+            </select>
+          </label>
         </div>
 
         <div>
-          Publish Date:
-          <input
-            type="datetime-local"
-            className="ml-4"
-            value={ date }
-            onChange={ (e) => setDate(e.target.value) }
-          />
+          <label>
+            Publish Date:
+            <input
+              type="datetime-local"
+              className="ml-4"
+              value={ date }
+              onChange={ (e) => setDate(e.target.value) }
+            />
+          </label>
         </div>
 
         <div>
-          URL Slug:
-          <input 
-            type="text" 
-            className="ml-4 p-2 border border-gray-200"
-            value={ slug }
-            onChange={ (e) => setSlug(e.target.value) }
-          />
+          <label>
+            URL Slug:
+            <input 
+              type="text" 
+              className="ml-4 p-2 border border-gray-200"
+              value={ slug }
+              onChange={ (e) => setSlug(e.target.value) }
+            />
+          </label>
         </div>
 
         <div>
-          Post:
-          <textarea
-            className="rounded block border border-gray-400 w-full h-[75vh] p-2"
-            defaultValue={body}
-            onChange={ (e) => setBody(e.target.value) }
-          ></textarea>
+          <label>
+            Tags:
+            <input 
+              type="text" 
+              className="ml-4 p-2 border border-gray-200"
+              value={ postTags }
+              onChange={ (e) => setPostTags(e.target.value) }
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Post:
+            <textarea
+              className="rounded block border border-gray-400 w-full h-[75vh] p-2"
+              defaultValue={body}
+              onChange={ (e) => setBody(e.target.value) }
+            ></textarea>
+          </label>
         </div>
 
         <button 

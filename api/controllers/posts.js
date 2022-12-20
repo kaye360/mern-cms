@@ -31,6 +31,18 @@ export const getDraftPosts = tryAsync( async (req, res) => {
 
 
 
+
+export const getTaggedPosts = tryAsync( async (req, res) => {
+  const tag = req.params.tag
+  const posts = await Post.find({ tags : tag })
+
+  if (!posts) return res.status(404).json({ msg : `No post found with tag: ${ tag }` })
+
+  res.status(200).json({ posts })
+} )
+
+
+
 export const createPost = tryAsync( async (req, res) => {
   const newPost = await Post.create(req.body)
   res.status(201).json({ newPost })
@@ -47,8 +59,6 @@ export const getSinglePost = tryAsync( async (req, res) => {
 
   res.status(200).json({ singlePost })
 })
-
-
 
 
 

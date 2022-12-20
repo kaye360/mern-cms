@@ -1,18 +1,25 @@
 
+// Dependencies
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { createContext, useState, } from "react";
 
+// Assets
 import './App.css';
 import './index.css'
-import Nav from './components/Nav'
-import Footer from './components/Footer'
+
+// Pages
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
-import Post from "./pages/Post";
 import EditPost from "./pages/EditPost";
 import CreatePost from "./pages/CreatePost"
+import Post from "./pages/Post";
+import Tag from "./pages/Tag";
+
+// Components
+import Nav from './components/Nav'
 import ScrollToTop from "./components/ScrollToTop";
 import Flash from "./components/Flash";
-import { createContext, useState, } from "react";
+import Footer from './components/Footer'
 
 export const FlashContext = createContext()
 
@@ -40,6 +47,8 @@ function App() {
           <Route path="/" element={ <Index /> } />
           
           <Route path="post/:slug" element={ <Post /> } />
+
+          <Route path="tag/:tag" element={ <Tag /> } />
 
           <Route path="admin" element={ <Admin /> } />
 
