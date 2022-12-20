@@ -1,9 +1,9 @@
 #### MERN CMS
 
-A practice portfolio project. Not a tutorial
-By Josh Kaye
+A practice portfolio project by Josh Kaye. Not a tutorial.
 
-Tech used: MongoDB, Express, React, NodeJS, TailwindCSS
+
+Tech used: MongoDB, Mongoose, Express, React, NodeJS, TailwindCSS
 
 
 ### Project Structure
