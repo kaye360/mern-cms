@@ -13,10 +13,10 @@ Tech used: MongoDB, Express, React, NodeJS, TailwindCSS
 - Index : show posts
 - View Single Post
 - Admin : manage posts
-  - View all posts
+  - view all/published/draft posts
+  - create post
   - edit single post
   - delete post
-  - create post
 
 #### API Routes:
 
