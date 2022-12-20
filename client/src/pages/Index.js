@@ -4,10 +4,10 @@ import usePosts from "../utils/usePosts"
 
 export default function Index() {
 
-  const { posts } = usePosts({type : 'index'})
+  const { posts } = usePosts({type : 'published'})
 
   return(
-    <section>
+    <section className="min-h-screen">
 
       <PageHeading>Recent Posts</PageHeading>
 

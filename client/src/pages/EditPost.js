@@ -66,7 +66,7 @@ export default function EditPost() {
   }
 
   return(
-    <section>
+    <section className="min-h-screen">
 
       {
       post.length !== 0 && <>

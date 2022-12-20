@@ -9,19 +9,21 @@
 
 
 import { APIURL } from "./config"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 
 export default function usePosts({ type }) {
 
   const [posts, setPosts] = useState([])
 
-  const validTypes = [
-    'all', // All posts, ordered by Date ASC
-    'index', // Published posts, ordered by Date ASC
-  ]
+  const validTypes = useMemo( () => {
+    return [
+    'all', // All posts, ordered by Date DESC
+    'published', // Published posts, ordered by Date DESC
+    'drafts', // Draft posts, ordered by Date DESC
+  ]}, [])
 
   
-  async function getPosts() {
+  const getPosts = useCallback( async () => {
 
     if( !validTypes.includes(type)) return
     
@@ -35,11 +37,11 @@ export default function usePosts({ type }) {
     } catch (err) {
       console.log(err)
     }
-  }
+  }, [type, validTypes])
 
   useEffect( () => {
     getPosts()
-  }, [])
+  }, [getPosts])
 
   return { posts, getPosts}
 }

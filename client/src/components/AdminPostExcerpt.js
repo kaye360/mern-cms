@@ -18,6 +18,7 @@ export default function AdminPostExcerpt({ post, getPosts }) {
     body,
     slug,
     _id,
+    published,
   } = post
 
   date = date.slice(0, 10)
@@ -69,7 +70,15 @@ export default function AdminPostExcerpt({ post, getPosts }) {
     
       <article className="rounded p-4 border border-slate-200">
 
-        <h2 className="my-2 text-xl font-medium">{ title }</h2>
+        <div
+          className={`my-0 font-medium text-sm
+            ${ published && 'text-green-400' }
+            ${ !published && 'text-orange-400' }
+           `}
+        >
+          { published ? 'Published' : 'Draft' }
+        </div>
+        <h2 className="mb-2 text-xl font-medium">{ title }</h2>
 
         <div className="text-sm text-gray-400">
           <Icon css='text-xs mr-1'>calendar_today</Icon>

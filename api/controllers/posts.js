@@ -16,8 +16,16 @@ export const getAllPosts = tryAsync( async (req, res) => {
 
 
 
-export const getIndexPosts = tryAsync( async (req, res) => {
+export const getPublishedPosts = tryAsync( async (req, res) => {
   const posts = await Post.find({ published : true }).sort({ "date" : "desc" })
+  res.status(200).json({ posts })
+})
+
+
+
+
+export const getDraftPosts = tryAsync( async (req, res) => {
+  const posts = await Post.find({ published : false }).sort({ "date" : "desc"})
   res.status(200).json({ posts })
 })
 
