@@ -2,6 +2,7 @@ import { useContext } from "react";
 import PageHeading from "../components/PageHeading";
 import {FlashContext} from "../App"
 import { useNavigate } from "react-router-dom";
+import { APIURL } from "../utils/config";
 
 export default function EditPost() {
 
@@ -23,7 +24,7 @@ export default function EditPost() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/`, {
+      const res = await fetch(`${APIURL}/post`, {
         method : 'POST',
         headers : { 'Content-Type' : 'application/json; charset=UTF-8' },
         body : JSON.stringify( postData )

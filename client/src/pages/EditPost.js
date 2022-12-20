@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import PageHeading from "../components/PageHeading";
 import Icon from "../components/Icon"
 import {FlashContext} from "../App"
+import { APIURL } from "../utils/config";
 
 export default function EditPost() {
 
@@ -24,7 +25,7 @@ export default function EditPost() {
 
       try {
         
-        const res = await fetch(`http://localhost:3001/api/post/${uri}`)
+        const res = await fetch(`${APIURL}/post/${uri}`)
 
         if(!res.ok) return
 
@@ -49,13 +50,14 @@ export default function EditPost() {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const res = await fetch(`http://localhost:3001/api/post/${id}`, {
+    const res = await fetch(`${APIURL}/post/${id}`, {
       method : 'PUT',
       headers : { 'Content-Type' : 'application/json; charset=UTF-8' },
       body : JSON.stringify({ title, date, slug, published, body })
     })
 
     const data = await res.json()
+    console.log(data)
 
     setFlash({
       message: `Successfully Updated post: ${ data.updatedPost.title }`, 
@@ -86,7 +88,7 @@ export default function EditPost() {
           <select
             className="ml-4"
             defaultValue={ published ? 'true' : 'false' }
-            onChange={ (e) => { console.log(e.target.value) }}
+            onChange={ (e) => { setPublished(e.target.value) }}
           >
             <option value="false">Draft</option>
             <option value="true">Published</option>

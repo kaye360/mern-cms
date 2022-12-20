@@ -4,7 +4,7 @@ import usePosts from "../utils/usePosts"
 
 export default function Index() {
 
-  const { posts } = usePosts()
+  const { posts } = usePosts({type : 'index'})
 
   return(
     <section>

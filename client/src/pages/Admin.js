@@ -1,15 +1,16 @@
+import { Link } from "react-router-dom"
+
 import usePosts from "../utils/usePosts"
 
 import PageHeading from "../components/PageHeading"
 import AdminPostExcerpt from "../components/AdminPostExcerpt"
 import Icon from "../components/Icon"
-import { Link } from "react-router-dom"
 
 
 export default function Admin() {
 
 
-  const { posts, getPosts } = usePosts()
+  const { posts, getPosts } = usePosts({ type : 'all' })
 
   return(
     <section>

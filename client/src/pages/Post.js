@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
-
 import { Link, useParams } from "react-router-dom";
+import { APIURL } from "../utils/config"
 import PageHeading from "../components/PageHeading";
 
 
@@ -19,7 +19,7 @@ export default function Post() {
     async function getPost() {
       try {
 
-        let res = await fetch(`http://localhost:3001/api/post/${slug}`)
+        let res = await fetch(`${APIURL}/post/${slug}`)
         if(!res.ok) throw new Error(res.status)
         let data = await res.json()
         setPost(data.singlePost)

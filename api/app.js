@@ -19,6 +19,7 @@ import connectDB from "./utils/db.js";
 // Models
 import {
   getAllPosts,
+  getIndexPosts,
   createPost,
   getSinglePost,
   updateSinglePost,
@@ -38,13 +39,13 @@ app.use(express.json())
 // Routes
 const router = express.Router()
 
-router.route('/').get(  getAllPosts)
-                 .post( createPost )
+router.route('/posts/all').get(  getAllPosts )
+router.route('/posts/index').get( getIndexPosts )
 
+router.route('/post')      .post( createPost )
 router.route('/post/:slug').get( getSinglePost )
-
-router.route('/post/:id').put( updateSinglePost )
-                         .delete( destroySinglePost )
+router.route('/post/:id')  .put( updateSinglePost )
+                           .delete( destroySinglePost )
 
 app.use('/api/', router)
 

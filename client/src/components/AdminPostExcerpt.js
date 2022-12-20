@@ -3,6 +3,7 @@ import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import { FlashContext } from "../App"
 import Icon from "./Icon"
+import { APIURL } from "../utils/config"
 
 
 export default function AdminPostExcerpt({ post, getPosts }) {
@@ -37,7 +38,7 @@ export default function AdminPostExcerpt({ post, getPosts }) {
 
     try {
       
-      const res = await fetch(`http://localhost:3001/api/post/${id}`, {
+      const res = await fetch(`${APIURL}/post/${id}`, {
         method : 'DELETE',
         headers : {
           'Content-Type' : 'application/json; charset=UTF-8'
