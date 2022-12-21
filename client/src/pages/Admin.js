@@ -10,8 +10,8 @@ import { useState } from "react"
 
 export default function Admin() {
 
+  // Can be all, published, or drafts
   const [ showPosts, setShowPosts ] = useState('all')
-
   const { posts, getPosts } = usePosts({ type : showPosts })
 
 
