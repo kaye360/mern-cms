@@ -11,6 +11,10 @@ export default function EditPost() {
 
   const [, setFlash] = useContext(FlashContext)
 
+  const [viewPostBtnURI, setViewPostBtnURI] = useState(uri)
+
+  const [isProgressSaved, setIsProgressSaved] = useState(true)
+
   const [id, setId] = useState(false)
   const [post, setPost] = useState([])
   const [title, setTitle] = useState(false)
@@ -51,6 +55,9 @@ export default function EditPost() {
     getPost()
   },[uri, setFlash])
 
+
+
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -66,6 +73,8 @@ export default function EditPost() {
       const data = await res.json()
       console.log(data)
   
+      setViewPostBtnURI(slug)
+      setIsProgressSaved(true)
       setFlash({
         message: `Successfully Updated post: ${ data.updatedPost.title }`, 
         type : 'success'
@@ -92,7 +101,10 @@ export default function EditPost() {
               type="text" 
               className="p-2 w-full border border-gray-200" 
               value={ title }
-              onChange={ (e) => setTitle(e.target.value) }
+              onChange={ (e) => {
+                setIsProgressSaved(false)
+                setTitle(e.target.value)
+              }}
             />
           </label>
         </PageHeading>
@@ -103,7 +115,10 @@ export default function EditPost() {
             <select
               className="ml-4"
               defaultValue={ published ? 'true' : 'false' }
-              onChange={ (e) => { setPublished(e.target.value) }}
+              onChange={ (e) => { 
+                setIsProgressSaved(false)
+                setPublished(e.target.value) 
+              }}
             >
               <option value="false">Draft</option>
               <option value="true">Published</option>
@@ -118,7 +133,10 @@ export default function EditPost() {
               type="datetime-local"
               className="ml-4"
               value={ date }
-              onChange={ (e) => setDate(e.target.value) }
+              onChange={ (e) => {
+                setIsProgressSaved(false)
+                setDate(e.target.value) 
+              }}
             />
           </label>
         </div>
@@ -130,7 +148,10 @@ export default function EditPost() {
               type="text" 
               className="ml-4 p-2 border border-gray-200"
               value={ slug }
-              onChange={ (e) => setSlug(e.target.value) }
+              onChange={ (e) => {
+                setIsProgressSaved(false)
+                setSlug(e.target.value) 
+              }}
             />
           </label>
         </div>
@@ -142,7 +163,10 @@ export default function EditPost() {
               type="text" 
               className="ml-4 p-2 border border-gray-200"
               value={ postTags }
-              onChange={ (e) => setPostTags(e.target.value) }
+              onChange={ (e) => {
+                setIsProgressSaved(false)
+                setPostTags(e.target.value) 
+              }}
             />
           </label>
         </div>
@@ -153,19 +177,35 @@ export default function EditPost() {
             <textarea
               className="rounded block border border-gray-400 w-full h-[75vh] p-2"
               defaultValue={body}
-              onChange={ (e) => setBody(e.target.value) }
+              onChange={ (e) => {
+                setIsProgressSaved(false)
+                setBody(e.target.value) 
+              }}
             ></textarea>
           </label>
         </div>
 
-        <button 
-          type="submit"
-          className="
-            rounded inline-flex items-center gap-2 px-6 py-3 w-fit
-            bg-sky-200 hover:bg-sky-400 text-black font-medium text-lg"
-        >
-          Update Post
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            type="submit"
+            className="
+              rounded inline-flex items-center gap-2 px-6 py-3 w-fit
+              bg-sky-200 hover:bg-sky-400 text-black font-medium text-lg"
+          >
+            <Icon>update</Icon>
+            Update Post
+          </button>
+
+          <Link 
+            to={`/post/${viewPostBtnURI}`} 
+            className="
+              rounded inline-flex items-center gap-2 px-6 py-3 w-fit
+              bg-sky-100 hover:bg-sky-300 text-black font-medium text-lg"
+          >
+            <Icon>article</Icon>
+            View Post
+          </Link>
+        </div>
 
         </div>
         </form>
@@ -192,6 +232,20 @@ export default function EditPost() {
           </p>
         </div>
       }
+
+      <div
+        className={`
+          fixed left-2 bottom-8 flex items-center gap-2 rounded px-4 py-2 border font-medium bg-white
+          ${ isProgressSaved && 'border-emerald-500 text-emerald-500'}
+          ${ isProgressSaved || 'border-amber-500 text-amber-500'}
+        `}
+      >
+        <Icon>
+          {isProgressSaved ? 'check_circle' : 'error_outline'}
+        </Icon>
+        Post status: 
+        {isProgressSaved ? ' Saved' : ' Not Saved'}
+      </div>
 
       </section>
   )

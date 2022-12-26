@@ -14,6 +14,8 @@ export default function PostExcerpt({ post }) {
   } = post
 
   date = date.slice(0, 10)
+  body = body.slice(0, 250)
+  if(body.length === 250) body += '...'
 
   return(
     <article className="flex flex-col gap-8 items-start rounded p-4 border border-blue-100">

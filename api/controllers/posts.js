@@ -17,8 +17,18 @@ export const getAllPosts = tryAsync( async (req, res) => {
 
 
 export const getPublishedPosts = tryAsync( async (req, res) => {
-  const posts = await Post.find({ published : true }).sort({ "date" : "desc" })
-  res.status(200).json({ posts })
+
+  const page = parseInt(req.query.page || 0)
+  const total = await Post.countDocuments({})
+
+  const posts = await Post.find({ published : true })
+    .sort({ "date" : "desc" })
+    .limit(5)
+    .skip(5 * page)
+  res.status(200).json({ 
+    totalPages : Math.ceil(total / 5),
+    posts 
+  })
 })
 
 

@@ -34,14 +34,12 @@ Tech used: MongoDB, Mongoose, Express, React, NodeJS, TailwindCSS
 
 
 ### Interesting Features
-- custom front-end form validation1
+- custom front-end form validation
+- mongodb seeder
 
 
 ### TODO/Bugs
-- refactor and clean up
 - form validate edit post
-- Get backend form validation to show in front end
 - create users/login
-- make a DB seeder
 - add date validation to form validator
 - add tag regex validator. letters, numbers, comma, space only

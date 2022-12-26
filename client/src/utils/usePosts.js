@@ -14,6 +14,7 @@ import { useState, useEffect, useCallback, useMemo } from "react"
 export default function usePosts({ type }) {
 
   const [posts, setPosts] = useState([])
+  const [totalPages, setTotalPages] = useState(0)
 
   const validTypes = useMemo( () => {
     return [
@@ -29,19 +30,37 @@ export default function usePosts({ type }) {
     
     try {
 
-      const res = await fetch(`${APIURL}/posts/${type}`)
+      const res = await fetch(`${APIURL}/posts/${type}?page=0`)
       if(!res.ok) throw new Error(res.status)
       const data = await res.json()
       setPosts(data.posts)
-      
+      setTotalPages(data.totalPages)
+
     } catch (err) {
-      console.log(err)
+      setPosts({error : 'Error retrieving posts'})
     }
   }, [type, validTypes])
 
+
+  const loadMorePosts = useCallback( async (page) => {
+
+    if (!page) return
+
+    try {
+      const res = await fetch(`${APIURL}/posts/published?page=${page}`)
+      if(!res.ok) throw new Error(res.status)
+      const data = await res.json()
+      setPosts([...posts, ...data.posts])
+    } catch (error) {
+      
+    }
+  }, [posts])
+
+
+
   useEffect( () => {
-    getPosts()
+    getPosts(0)
   }, [getPosts])
 
-  return { posts, getPosts}
+  return { posts, getPosts, loadMorePosts, totalPages}
 }

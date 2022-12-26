@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { APIURL } from "../utils/config"
 import PageHeading from "../components/PageHeading";
+import Icon from "../components/Icon";
 
 
 
@@ -11,7 +12,7 @@ export default function Post() {
   const { slug } = useParams()
 
 
-  const [post, setPost] = useState([true])
+  const [post, setPost] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect( () => {
@@ -63,8 +64,26 @@ export default function Post() {
           {post.likes} likes
         </div>
 
-        <div className="my-4">
+        <div className="my-16 whitespace-pre-wrap">
           {post.body}
+        </div>
+
+        <div className="flex items-center flex-wrap gap-4">
+          Tags:
+          {
+          post.tags.map( (tag, index) => {
+            return (
+              <Link 
+                to={`/tag/${tag}`} 
+                key={index}
+                className="inline-flex items-center gap-1 px-2 border border-sky-200 hover:bg-sky-100"
+              >
+                <Icon css="text-base text-sky-300">tag</Icon>
+                {tag}
+              </Link>
+            )
+          })
+          }
         </div>
       </>
       }
