@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { APIURL } from "../utils/config"
 import PageHeading from "../components/PageHeading";
 import Icon from "../components/Icon";
@@ -10,7 +10,9 @@ import Icon from "../components/Icon";
 export default function Post() {
 
   const { slug } = useParams()
+  const navigate = useNavigate()
 
+  console.log({document})
 
   const [post, setPost] = useState([])
   const [loading, setLoading] = useState(true)
@@ -50,6 +52,9 @@ export default function Post() {
 
       {
       post.length !== 0 && <>
+
+        <Link onClick={ () => navigate(-1) }>Back</Link>
+
         <PageHeading>
           <Link to={`/post/${slug}`}>
             {post.title}

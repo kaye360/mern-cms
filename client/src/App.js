@@ -45,6 +45,8 @@ function App() {
         <Routes>
 
           <Route path="/" element={ <Index /> } />
+
+          <Route path="/page/:page" element={ <Index /> } />
           
           <Route path="post/:slug" element={ <Post /> } />
 

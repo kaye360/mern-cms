@@ -25,7 +25,8 @@ import {
   createPost,
   getSinglePost,
   updateSinglePost,
-  destroySinglePost
+  destroySinglePost,
+  // getPublishedPostsNoSkip
 } from "./controllers/posts.js"
 
 // Environment variables
@@ -44,6 +45,8 @@ const router = express.Router()
 router.route('/posts/all')      .get( getAllPosts )
 router.route('/posts/published').get( getPublishedPosts )
 router.route('/posts/drafts')   .get( getDraftPosts )
+
+// router.route('/posts/noskip')   .get( getPublishedPostsNoSkip )
 
 router.route('/tag/:tag').get( getTaggedPosts )
 

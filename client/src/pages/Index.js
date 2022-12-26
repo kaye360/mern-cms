@@ -3,21 +3,25 @@ import PageHeading from "../components/PageHeading"
 import usePosts from "../utils/usePosts"
 import { useState } from "react"
 import Icon from "../components/Icon"
+import { useParams } from "react-router-dom"
 
 export default function Index() {
 
-  const { posts, totalPages, loadMorePosts } = usePosts({type : 'published'})
-  const [ page, setPage ] = useState(1)
-  const [isAtEnd, setIsAtEnd] = useState(false)
+  let { page } = useParams()
+  page = !page ? 1 : parseInt(page)
+  
+  const { posts, totalPages, loadMorePosts } = usePosts({
+    type : 'published',
+    page : page
+  })
+  const [ currentPage, setCurrentPage ] = useState(page)
 
   function handleLoadMorePosts() {
-    const lastPage = totalPages - 1
-
-    loadMorePosts(page)
-    setPage(page + 1)
-
-    if(page === lastPage)  setIsAtEnd(true)
+    window.history.replaceState(null, "", `/page/${currentPage+1}`)
+    loadMorePosts(currentPage + 1)
+    setCurrentPage(currentPage + 1)
   }
+
 
   return(
     <section className="min-h-screen">
@@ -37,10 +41,10 @@ export default function Index() {
       <div
         className="flex flex-col items-center gap-4 my-6 py-8 text-center bg-slate-100"
       >
-          Page {page}/{totalPages}<br />
+          Page {currentPage}/{totalPages}<br />
 
         {
-        !isAtEnd &&
+        currentPage <= totalPages - 1 &&
           <button  
             onClick={ handleLoadMorePosts } 
             className="flex items-center gap-2 max-w-fit p-4 border border-slate-400"

@@ -11,7 +11,7 @@
 import { APIURL } from "./config"
 import { useState, useEffect, useCallback, useMemo } from "react"
 
-export default function usePosts({ type }) {
+export default function usePosts({ type, page }) {
 
   const [posts, setPosts] = useState([])
   const [totalPages, setTotalPages] = useState(0)
@@ -29,8 +29,13 @@ export default function usePosts({ type }) {
     if( !validTypes.includes(type)) return
     
     try {
+      let res
+      if(page) {
+        res = await fetch(`${APIURL}/posts/${type}?page=${page}&skip=false`)
+      } else {
+        res = await fetch(`${APIURL}/posts/${type}?page=1&skip=true`)
+      }
 
-      const res = await fetch(`${APIURL}/posts/${type}?page=0`)
       if(!res.ok) throw new Error(res.status)
       const data = await res.json()
       setPosts(data.posts)
@@ -39,7 +44,7 @@ export default function usePosts({ type }) {
     } catch (err) {
       setPosts({error : 'Error retrieving posts'})
     }
-  }, [type, validTypes])
+  }, [type, validTypes, page])
 
 
   const loadMorePosts = useCallback( async (page) => {
@@ -47,7 +52,7 @@ export default function usePosts({ type }) {
     if (!page) return
 
     try {
-      const res = await fetch(`${APIURL}/posts/published?page=${page}`)
+      const res = await fetch(`${APIURL}/posts/published?page=${page}&skip=true`)
       if(!res.ok) throw new Error(res.status)
       const data = await res.json()
       setPosts([...posts, ...data.posts])
@@ -55,7 +60,6 @@ export default function usePosts({ type }) {
       
     }
   }, [posts])
-
 
 
   useEffect( () => {

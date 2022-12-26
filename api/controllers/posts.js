@@ -17,19 +17,44 @@ export const getAllPosts = tryAsync( async (req, res) => {
 
 
 export const getPublishedPosts = tryAsync( async (req, res) => {
-
-  const page = parseInt(req.query.page || 0)
+  const page = parseInt(req.query.page) || 1
+  const skip = JSON.parse(req.query.skip)
   const total = await Post.countDocuments({})
+  let posts
 
-  const posts = await Post.find({ published : true })
-    .sort({ "date" : "desc" })
-    .limit(5)
-    .skip(5 * page)
+  // If skip = true, send section. ie: posts 1-5, 5-10, 10-15 etc
+  // If skip = false, send range. ie: post 1-5, 1-10, 1-15 etc
+  if(skip) {
+    posts = await Post.find({ published : true })
+      .sort({ "date" : "desc" })
+      .limit(5)
+      .skip(5 * page - 5)
+  } else {
+    posts = await Post.find({ published : true }) 
+      .sort({ "date" : "desc" })
+      .limit(5 * page)
+  }
+
   res.status(200).json({ 
     totalPages : Math.ceil(total / 5),
     posts 
   })
 })
+
+// export const getPublishedPostsNoSkip = tryAsync( async (req, res) => {
+//   const page = parseInt(req.query.page) || 1
+//   const total = await Post.countDocuments({})
+
+//   const posts = await Post.find({ published : true }) 
+//     .sort({ "date" : "desc" })
+//     .limit(5 * page)
+
+//   res.status(200).json({ 
+//     page,
+//     totalPages : Math.ceil(total / 5),
+//     posts
+//   })
+// })
 
 
 
